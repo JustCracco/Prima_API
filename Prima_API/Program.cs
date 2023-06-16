@@ -3,46 +3,49 @@ using Prima_API;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ToDodb>(opt => opt.UseInMemoryDatabase("ToDoList"));
+builder.Services.AddScoped<IToDoService, ToDoService>();
+
 var app = builder.Build();
 
-app.MapGet("/todoitems", async (ToDodb db) => await db.Todos.ToListAsync());
+app.MapGet("/todoitems", async (IToDoService toDoService) => await toDoService.GetAllItemAsync());
 
-app.MapGet("/todoitems/complete", async (ToDodb db) => await db.Todos.Where(t => t.IsComplete).ToListAsync());
+app.MapGet("/todoitems/complete", async (IToDoService toDoService) => await toDoService.GetAllItemAsync(true));
 
-app.MapGet("/todoitems/{id}", async (int id, ToDodb db) => await db.Todos.FindAsync(id) is ToDo todo ? Results.Ok(todo) : Results.NotFound());
-
-app.MapPost("/todoitems", async (ToDo todo, ToDodb db) =>
+app.MapGet("/todoitems/{id}", async (int id, IToDoService toDoService) =>
 {
-    db.Todos.Add(todo);
-    await db.SaveChangesAsync();
+    var todo = await toDoService.GetItemAsync(id);
 
-    return Results.Created($"/todoitems/{todo.Id}", todo);
-});
-
-app.MapPut("/todoitems/{id}", async (int id, ToDo inputTodo, ToDodb db) =>
-{
-    var todo = await db.Todos.FindAsync(id);
-
-    if(todo is null) return Results.NotFound();
-
-    todo.name = inputTodo.name;
-    todo.IsComplete = inputTodo.IsComplete;
-
-    await db.SaveChangesAsync();
-
-    return Results.NoContent();
-});
-
-app.MapDelete("/todoitems/{id}", async (int id, ToDodb db) =>
-{
-    if(await db.Todos.FindAsync(id) is ToDo todo)
-    {
-        db.Todos.Remove(todo);
-        await db.SaveChangesAsync();
+    if (todo is null)
         return Results.NoContent();
-    }
+    else
+        return Results.Ok(todo);
+});
 
-    return Results.NotFound();
+app.MapPost("/todoitems", async (ToDo todo, IToDoService todoService) =>
+{
+    await todoService.AddItemAsync(todo);
+
+    Results.Created($"/todoitems/{todo.Id}", todo);
+});
+
+app.MapPut("/todoitems/{id}", async (int id, ToDo inputTodo, IToDoService toDoService) =>
+{
+    var todo = await toDoService.UpdateItemAsync(id, inputTodo);
+
+    if (todo is null) 
+        return Results.NotFound();
+    else 
+        return Results.NoContent();
+});
+
+app.MapDelete("/todoitems/{id}", async (int id, IToDoService toDoService) =>
+{
+    var result = await toDoService.DeleteItemAsync(id);
+
+    if (result is null)
+        return Results.NotFound();
+    else
+        return Results.NoContent();
 });
 
 app.Run();

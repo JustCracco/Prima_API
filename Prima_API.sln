@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33723.286
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prima_API", "Prima_API\Prima_API.csproj", "{2D602AA5-7D2D-421F-B04D-E3A66B3B082B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prima_API", "Prima_API\Prima_API.csproj", "{2D602AA5-7D2D-421F-B04D-E3A66B3B082B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API_test", "API_test\API_test.csproj", "{09B448A2-38E6-4A04-91C7-E969C459CAA7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{2D602AA5-7D2D-421F-B04D-E3A66B3B082B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D602AA5-7D2D-421F-B04D-E3A66B3B082B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2D602AA5-7D2D-421F-B04D-E3A66B3B082B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09B448A2-38E6-4A04-91C7-E969C459CAA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09B448A2-38E6-4A04-91C7-E969C459CAA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09B448A2-38E6-4A04-91C7-E969C459CAA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09B448A2-38E6-4A04-91C7-E969C459CAA7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

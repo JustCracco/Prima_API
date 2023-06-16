@@ -2,7 +2,7 @@
 
 namespace Prima_API
 {
-    class ToDodb : DbContext
+    public class ToDodb : DbContext
     {
         public ToDodb(DbContextOptions options) : base(options) { }
 
